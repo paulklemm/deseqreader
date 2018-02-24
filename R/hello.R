@@ -23,7 +23,7 @@ hello <- function() {
 #' @param filter_invalid Remove entry if log2Foldchange, pvalue and padj is NA
 #' @export
 #' @import readr magrittr
-#' @return tibble of DESeq data
+#' @return Tibble of DESeq data
 read_deseq <- function(path, filter_invalid = TRUE) {
   read_tsv(path) %>%
     rename(EnsemblGeneID = id) %>%
@@ -31,6 +31,8 @@ read_deseq <- function(path, filter_invalid = TRUE) {
     return()
 }
 
+#' Attach biomart variables to deseq data
+#'
 #' @import dplyr biomaRt
 #' @export
 #' @param dat Tibble to attach biomart results to.
@@ -38,6 +40,7 @@ read_deseq <- function(path, filter_invalid = TRUE) {
 #' @param join_key_bm Join key on biomart
 #' @param bmart_dataset biomart dataset to be used. Defaults to mmusculus_gene_ensembl
 #' @param extra_attributes Any extra attributes to attach besides the gene name
+#' @return Tibble with attached biomart variables
 attach_biomart <- function(
     dat,
     join_key_dat = "EnsemblGeneID",
@@ -57,24 +60,42 @@ attach_biomart <- function(
     rename("GeneName" = "external_gene_name")
 }
 
+#' Add boolean 'Significant' variable to deseq dataset
+#'
+#' @param deseq_dat Tibble of DESeq data
+#' @param padj_min Double of minimum adjusted pvalue
+#' @export
+#' @import dplyr
+#' @return Tibble of entries satisfying significance filter
+set_significant <- function(deseq_dat, padj_min = 0.05) {
+  deseq_dat %>%
+    mutate(Significant = padj <= padj_min) %>%
+    return()
+}
+
 #' Create a volcano plot from DESeq data set
 #'
 #' @param deseq_dat DESeq dataset to plot
+#' @param label_var Name of variable containing the names for plotting
 #' @param label_top_n Annotate the top n genes of the data set
 #' @export
-#' @import ggplot2 ggrepel
+#' @import ggplot2 ggrepel magrittr
 #' @return ggplot2 object of volcano plot
-volcano_plot <- function(deseq_dat, label_top_n = 20) {
-  if (!("GeneName" %in% names(deseq_dat))) {
-    stop("GeneName not in data frame. Please attach it with TODO")
+volcano_plot <- function(deseq_dat, label_var = "GeneName", label_top_n = 20) {
+  if (!(label_var %in% names(deseq_dat))) {
+    stop(paste0(label_var, "not in data frame. Please attach it with attach_biomart"))
+  }
+  if (!("Significant") %in% names(deseq_dat)) {
+    warning("Variable 'Significant' not found, added it using 'set_significant' with default values (padj <= 0.05)")
+    deseq_dat <- deseq_dat %>% set_significant()
   }
   plot <- deseq_dat %>%
     ggplot(aes(log2FoldChange, -log10(padj))) +
     geom_point(aes(color = Significant)) +
     scale_color_manual(values = c("grey", "red")) +
     geom_text_repel(
-      data = dat %>% filter(Significant == TRUE) %>% arrange(padj) %>% head(label_top_n),
-      aes(label = Name)
+      data = deseq_dat %>% filter(Significant == TRUE) %>% arrange(padj) %>% head(label_top_n),
+      aes_string(label = label_var)
     )
   return(plot)
 }

@@ -4,10 +4,12 @@
 \alias{volcano_plot}
 \title{Create a volcano plot from DESeq data set}
 \usage{
-volcano_plot(deseq_dat, label_top_n = 20)
+volcano_plot(deseq_dat, label_var = "GeneName", label_top_n = 20)
 }
 \arguments{
 \item{deseq_dat}{DESeq dataset to plot}
+
+\item{label_var}{Name of variable containing the names for plotting}
 
 \item{label_top_n}{Annotate the top n genes of the data set}
 }

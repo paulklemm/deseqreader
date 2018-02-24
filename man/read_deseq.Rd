@@ -4,13 +4,15 @@
 \alias{read_deseq}
 \title{Read in DESeq data from TSV file}
 \usage{
-read_deseq(path)
+read_deseq(path, filter_invalid = TRUE)
 }
 \arguments{
 \item{path}{Path to DESeq data}
+
+\item{filter_invalid}{Remove entry if log2Foldchange, pvalue and padj is NA}
 }
 \value{
-tibble of DESeq data
+Tibble of DESeq data
 }
 \description{
 Read in DESeq data from TSV file

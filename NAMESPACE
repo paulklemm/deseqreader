@@ -2,6 +2,7 @@
 
 export(attach_biomart)
 export(read_deseq)
+export(set_significant)
 export(volcano_plot)
 import(biomaRt)
 import(dplyr)
