@@ -20,26 +20,41 @@ hello <- function() {
 #' Read in DESeq data from TSV file
 #'
 #' @param path Path to DESeq data
+#' @param filter_invalid Remove entry if log2Foldchange, pvalue and padj is NA
 #' @export
 #' @import readr magrittr
 #' @return tibble of DESeq data
-read_deseq <- function(path) {
+read_deseq <- function(path, filter_invalid = TRUE) {
   read_tsv(path) %>%
+    rename(EnsemblGeneID = id) %>%
+    filter(!is.na(log2FoldChange) & !is.na(pvalue) & !is.na(padj)) %>%
     return()
 }
 
 #' @import dplyr biomaRt
-attach_biomart <- function(dat, bmart_dataset = "mmusculus_gene_ensembl", extra_attributes = c()) {
+#' @export
+#' @param dat Tibble to attach biomart results to.
+#' @param join_key_dat Join key on the dataset
+#' @param join_key_bm Join key on biomart
+#' @param bmart_dataset biomart dataset to be used. Defaults to mmusculus_gene_ensembl
+#' @param extra_attributes Any extra attributes to attach besides the gene name
+attach_biomart <- function(
+    dat,
+    join_key_dat = "EnsemblGeneID",
+    join_key_bm = "ensembl_gene_id",
+    bmart_dataset = "mmusculus_gene_ensembl",
+    extra_attributes = c()
+  ) {
   dat <- getBM(
-    filters = "ensembl_gene_id",
-    attributes = c("ensembl_gene_id", "external_gene_name", extra_attributes),
-    values = dat$id,
+    filters = join_key_bm,
+    attributes = c(join_key_bm, "external_gene_name", extra_attributes),
+    values = dat[join_key_dat][[1]],
     mart = useMart("ensembl", dataset=bmart_dataset),
     uniqueRows = TRUE,
     verbose = FALSE
   ) %>%
-    inner_join(dat, by = c("ensembl_gene_id" = "id")) %>%
-    rename(EnsemblID = ensembl_gene_id, GeneName = external_gene_name)
+    inner_join(dat, ., by = setNames(join_key_bm, join_key_dat)) %>%
+    rename("GeneName" = "external_gene_name")
 }
 
 #' Create a volcano plot from DESeq data set

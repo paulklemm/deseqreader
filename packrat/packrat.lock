@@ -1,21 +1,48 @@
 PackratFormat: 1.4
 PackratVersion: 0.4.8.1
 RVersion: 3.4.2
-Repos: BioCsoft=https://bioconductor.org/packages/3.5/bioc,
-    BioCann=https://bioconductor.org/packages/3.5/data/annotation,
-    BioCexp=https://bioconductor.org/packages/3.5/data/experiment,
-    BioCextra=https://bioconductor.org/packages/3.5/extra,
+Repos: BioCsoft=https://bioconductor.org/packages/3.6/bioc,
+    BioCann=https://bioconductor.org/packages/3.6/data/annotation,
+    BioCexp=https://bioconductor.org/packages/3.6/data/experiment,
     CRAN=https://cran.rstudio.com/
+
+Package: AnnotationDbi
+Source: Bioconductor
+Version: 1.40.0
+Hash: 185bc9c8ccbed94957b7f4a622195278
+Requires: Biobase, BiocGenerics, DBI, IRanges, RSQLite, S4Vectors
 
 Package: BH
 Source: CRAN
 Version: 1.66.0-1
 Hash: 4cc8883584b955ed01f38f68bc03af6d
 
+Package: Biobase
+Source: Bioconductor
+Version: 2.38.0
+Hash: 0244109184b2af652cc74c424943a85b
+Requires: BiocGenerics
+
+Package: BiocGenerics
+Source: Bioconductor
+Version: 0.24.0
+Hash: b0e8545b3d329a929c98672b0957fbde
+
+Package: BiocInstaller
+Source: Bioconductor
+Version: 1.28.0
+Hash: d0ba96fdc386731c75313f5bb5ba3d68
+
 Package: DBI
 Source: CRAN
 Version: 0.7
 Hash: 1ab72df487f06ad5f0de05446cdd4bd6
+
+Package: IRanges
+Source: Bioconductor
+Version: 2.12.0
+Hash: 20a52cdea49f9eb06ac17ebb163bc188
+Requires: BiocGenerics, S4Vectors
 
 Package: R6
 Source: CRAN
@@ -27,10 +54,33 @@ Source: CRAN
 Version: 1.1-2
 Hash: c0d56cd15034f395874c870141870c25
 
+Package: RCurl
+Source: CRAN
+Version: 1.95-4.10
+Hash: 06af5153f969a90c6cd6c87ee57baa44
+Requires: bitops
+
+Package: RSQLite
+Source: CRAN
+Version: 2.0
+Hash: dcee071f640151767c2dda034ae73b9f
+Requires: BH, DBI, Rcpp, bit64, blob, memoise, pkgconfig, plogr
+
 Package: Rcpp
 Source: CRAN
 Version: 0.12.15
 Hash: a419463fc86b3ecc7338ae3ac3bbb268
+
+Package: S4Vectors
+Source: Bioconductor
+Version: 0.16.0
+Hash: 5b1afbd539d11cd088f381808566d3ee
+Requires: BiocGenerics
+
+Package: XML
+Source: CRAN
+Version: 3.98-1.10
+Hash: 4822e9bd2d5ea97804878255829d8981
 
 Package: assertthat
 Source: CRAN
@@ -57,6 +107,34 @@ Source: CRAN
 Version: 0.2
 Hash: 2d69ff431a54f6c4a750754b88c7e0af
 Requires: Rcpp, bindr, plogr
+
+Package: biomaRt
+Source: Bioconductor
+Version: 2.34.2
+Hash: e0bb4613b5c40ab6531aeb57fc5fd8e2
+Requires: AnnotationDbi, RCurl, XML, httr, progress, stringr
+
+Package: bit
+Source: CRAN
+Version: 1.1-12
+Hash: a4cdb11cf9fd6dd38f9f40c413b81e93
+
+Package: bit64
+Source: CRAN
+Version: 0.9-7
+Hash: 4b195615d19ba49c114eb04e09e30a96
+Requires: bit
+
+Package: bitops
+Source: CRAN
+Version: 1.0-6
+Hash: 67d0775189fd0041d95abca618c5c07e
+
+Package: blob
+Source: CRAN
+Version: 1.1.0
+Hash: e29764e47f2faf0cd5b74cbcddc3fa9c
+Requires: tibble
 
 Package: brew
 Source: CRAN
@@ -161,6 +239,12 @@ Version: 2.2.1
 Hash: 46e5cb78836848aa44655e577433f54b
 Requires: digest, gtable, lazyeval, plyr, reshape2, scales, tibble
 
+Package: ggrepel
+Source: CRAN
+Version: 0.7.0
+Hash: 889ea95b057b50ef36dbcec02fec51bd
+Requires: Rcpp, ggplot2, scales
+
 Package: glue
 Source: CRAN
 Version: 1.2.0
@@ -238,6 +322,12 @@ Version: 0.8
 Hash: 045d7c594d503b41f1c28946d076c8aa
 Requires: mime
 
+Package: memoise
+Source: CRAN
+Version: 1.1.0
+Hash: 410fcd334bc626db100237cc1370f2e9
+Requires: digest
+
 Package: mime
 Source: CRAN
 Version: 0.5
@@ -296,6 +386,18 @@ Package: praise
 Source: CRAN
 Version: 1.0.0
 Hash: 77da8f1df873a4b91e5c4a68fe2fb1b6
+
+Package: prettyunits
+Source: CRAN
+Version: 1.0.2
+Hash: 49286102a855640daaa38eafe8b1ec30
+Requires: assertthat, magrittr
+
+Package: progress
+Source: CRAN
+Version: 1.1.2
+Hash: ceef88c244d792a874bdacf72b6a30da
+Requires: R6, prettyunits
 
 Package: psych
 Source: CRAN
