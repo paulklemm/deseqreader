@@ -554,6 +554,11 @@ Source: CRAN
 Version: 2.1.1
 Hash: a86856ae0b4a7c3daf9a3ef0097a403b
 
+Package: writexl
+Source: CRAN
+Version: 0.2
+Hash: 4551b8a9b79653f313baaec549186f0d
+
 Package: xml2
 Source: CRAN
 Version: 1.2.0

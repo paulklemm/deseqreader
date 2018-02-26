@@ -73,6 +73,29 @@ set_significant <- function(deseq_dat, padj_min = 0.05) {
     return()
 }
 
+#' Export deseq folder to excel with default read_deseq
+#'
+#' @param path Path to deseq files
+#' @param outputpath Path to output Excel files
+#' @param file_pattern Pattern to identify deseq files.
+#' @export
+#' @import writexl purrr stringr
+deseq_to_excel <- function(path, outputpath, file_pattern = ".tsv$") {
+  # Remove ending forward slah if it's there
+  path <- path %>% str_replace(pattern = "/$", replacement = "")
+  outputpath <- outputpath %>% str_replace(pattern = "/$", replacement = "")
+  # Read in all files from the path
+  dir(path, pattern = file_pattern) %>%
+    # Walk over all path names
+    iwalk(
+      # Combine path with filename
+      ~str_glue("{path}/{.x}") %>%
+        read_deseq() %>%
+        # Write excel file (replace the file ending)
+        write_xlsx(path = paste0(outputpath, "/", str_replace(string = .x, pattern = "\\.[^.]*$", replacement = ".xlsx")))
+    )
+}
+
 #' Create a volcano plot from DESeq data set
 #'
 #' @param deseq_dat DESeq dataset to plot
