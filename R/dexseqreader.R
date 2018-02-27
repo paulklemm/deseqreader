@@ -95,7 +95,7 @@ volcano_plot <- function(deseq_dat, label_var = "GeneName", label_top_n = 20) {
   }
   plot <- deseq_dat %>%
     ggplot(aes(log2FoldChange, -log10(padj))) +
-    geom_point(aes(color = Significant)) +
+    geom_point(aes(color = Significant), alpha = 0.3, shape = 1) +
     scale_color_manual(values = c("grey", "red")) +
     geom_text_repel(
       data = deseq_dat %>% filter(Significant == TRUE) %>% arrange(padj) %>% head(label_top_n),
