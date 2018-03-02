@@ -12,3 +12,11 @@ LazyData: true
 ByteCompile: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 6.0.1
+Imports: 
+    dplyr,
+    magrittr,
+    readr,
+    writexl,
+    ggplot2,
+    ggrepel,
+    biomaRt
